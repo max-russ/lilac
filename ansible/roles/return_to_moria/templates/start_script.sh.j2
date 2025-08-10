@@ -1,0 +1,10 @@
+#!/bin/bash
+export templdpath=$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH=./linux64:$LD_LIBRARY_PATH
+export SteamAppId=3349480
+
+echo "Starting server PRESS CTRL-C to exit"
+
+"/home/steam/return_to_moria/MoriaServer.sh" 
+
+export LD_LIBRARY_PATH=$templdpath

@@ -1,0 +1,14 @@
+[Unit]
+Description=return_to_moria server
+After=network.target
+
+[Service]
+Type=simple
+User=steam
+WorkingDirectory=/home/steam
+ExecStart=/usr/bin/wine-stable /home/steam/.local/share/Steam/steamcmd/return_to_moria/Moria/Binaries/Win64/MoriaServer-Win64-Shipping.exe
+RestartSec=20
+
+[Install]
+WantedBy=multi-user.target
+Alias=return_to_moria.service

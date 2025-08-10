@@ -1,0 +1,130 @@
+---
+  - name: dependency repos
+    apt_repository:
+      repo: "{{ item }}"
+      state: present
+    with_items: "{{ non_free_repos }}"
+
+  - name: dpkg 32bit arch
+    command: dpkg --add-architecture i386
+
+  - name: packages
+    apt:
+      pkg:
+      - software-properties-common
+      - wine
+      - xvfb
+      # - steamcmd
+      state: latest
+      update_cache: yes
+
+  - name: steamcmd debconf seen
+    debconf:
+      name: "steamcmd"
+      question: "steam/license"
+      vtype: "seen"
+      value: "true"
+
+  - name: steamcmd debconf selection
+    debconf:
+      name: "steamcmd"
+      question: "steam/question"
+      value: "I AGREE"
+      vtype: "select"
+
+
+  - name: steam group
+    group:
+      name: steam
+      state: present
+
+  - name: steam user
+    user:
+      name: steam
+      group: steam
+      create_home: true
+      shell: /bin/bash
+
+  - name: download return_to_moria
+    command: /usr/games/steamcmd +login anonymous +force_install_dir return_to_moria +app_update 3349480 +quit
+    become: yes
+    become_user: steam
+    args:
+      chdir: /home/steam
+    notify: 
+      - restart return_to_moria service
+
+#  - name: for steamclient library
+#    file:
+#      path: /home/steam/.steam/sdk64
+#      state: directory
+#      mode: '0755'
+#
+#  - name: create a symbolic link for steamclient library
+#    file:
+#      src: "/home/steam/Steam/steamapps/common/Valheim dedicated server/linux64/steamclient.so"
+#      dest: /home/steam/.steam/sdk64/steamclient.so
+#      owner: steam
+#      group: steam
+#      state: link
+
+  - name: return_to_moria config file
+    template:
+      src: templates/MoriaServerConfig.ini.j2
+      dest: /home/steam/.local/share/Steam/steamcmd/return_to_moria/MoriaServerConfig.ini
+      owner: steam
+      group: steam
+    notify:
+      - restart return_to_moria service
+
+  - name: return_to_moria rules file
+    template:
+      src: templates/MoriaServerRules.txt.j2
+      dest: /home/steam/.local/share/Steam/steamcmd/return_to_moria/MoriaServerRules.txt
+      owner: steam
+      group: steam
+    notify:
+      - restart return_to_moria service
+
+  # - name: return_to_moria start script
+  #   template:
+  #     src: templates/start_script.sh.j2
+  #     dest: /home/steam/.local/share/Steam/steamcmd/return_to_moria/start_script.sh
+  #     owner: steam
+  #     group: steam
+  #     mode: '0700'
+  #   notify:
+  #     - restart return_to_moria service
+
+  # - name: framebuffer service file
+  #   template:
+  #     src: templates/framebuffer.service.j2
+  #     dest: /etc/systemd/system/framebuffer.service
+  #     owner: root
+  #     group: root
+  #   notify:
+  #     - restart framebuffer service
+
+  - name: return_to_moria service file
+    template:
+      src: templates/return_to_moria.service.j2
+      dest: /etc/systemd/system/return_to_moria.service
+      owner: root
+      group: root
+    notify:
+      - restart return_to_moria service
+
+  - name: return_to_moria service
+    systemd:
+     name: return_to_moria
+     state: started
+     enabled: true
+     daemon_reload: true
+
+  - name: return_to_moria ports
+    ufw:
+      rule: allow
+      to_port: "{{ item }}"
+      proto: "udp"
+    with_items: "{{ return_to_moria_ports }}"
+

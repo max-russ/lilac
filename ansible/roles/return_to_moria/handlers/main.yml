@@ -1,0 +1,11 @@
+---
+     - name: restart return_to_moria service
+       systemd:
+         name: return_to_moria
+         state: restarted
+
+     - name: restart framebuffer service
+       systemd:
+         name: framebuffer
+         state: restarted
+

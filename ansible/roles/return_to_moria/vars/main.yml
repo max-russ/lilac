@@ -1,0 +1,12 @@
+non_free_repos:
+  - deb http://mirrors.ocf.berkeley.edu/debian/ bookworm main non-free
+  - deb-src http://mirrors.ocf.berkeley.edu/debian/ bookworm main non-free
+  - deb http://security.debian.org/debian-security bookworm-security main non-free
+  - deb-src http://security.debian.org/debian-security bookworm-security main non-free
+  - deb http://mirrors.ocf.berkeley.edu/debian/ bookworm-updates main non-free
+  - deb-src http://mirrors.ocf.berkeley.edu/debian/ bookworm-updates main non-free
+return_to_moria_ports:
+  - "7777"
+server_name: "Return to Moria"
+world_name: "server"
+server_password: "xxxxx"
