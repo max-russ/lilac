@@ -58,7 +58,7 @@
 
   - name: create a symbolic link for steamclient library
     file:
-      src: "/home/steam/Steam/steamapps/common/Valheim dedicated server/linux64/steamclient.so"
+      src: "/home/steam/.steam/steam/steamapps/common/Valheim dedicated server/linux64/steamclient.so"
       dest: /home/steam/.steam/sdk64/steamclient.so
       owner: steam
       group: steam
@@ -67,7 +67,7 @@
   - name: valheim start script
     template:
       src: templates/start_script.sh.j2
-      dest: /home/steam/Steam/steamapps/common/Valheim dedicated server/start_script.sh
+      dest: /home/steam/.steam/steam/steamapps/common/Valheim dedicated server/start_script.sh
       owner: steam
       group: steam
       mode: '0700'
