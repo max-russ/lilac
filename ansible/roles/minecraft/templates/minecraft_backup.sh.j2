@@ -1,4 +1,4 @@
 #!/usr/bin/sh
 
 tar -czvf /home/minecraft/backups/$(date --iso-8601=seconds| sed 's/:/-/g')_world.tar.gz /home/minecraft/world
-find /home/minecraft/backups/ -mtime +30 -t f -name \*.tar.gz -delete
+find /home/minecraft/backups/ -mtime +30 -type f -name \*.tar.gz -delete
