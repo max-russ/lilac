@@ -12,7 +12,6 @@
        - vim 
        - ufw  
        - fail2ban
-       state: present
        state: latest
        update_cache: yes
 

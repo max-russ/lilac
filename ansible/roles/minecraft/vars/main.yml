@@ -1,5 +1,5 @@
 ---
-     minecraft_version: "1.19.3" #need to find a way to use correctly
+     minecraft_version: "26.1" #need to find a way to use correctly
      minecraft_jar_path: "/home/minecraft/minecraft_server.jar"
      minecraft_tmp_jar_path: "/home/minecraft/minecraft_server.tmp"
      minecraft_min_ram: "2"

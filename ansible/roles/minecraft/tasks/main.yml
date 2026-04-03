@@ -6,11 +6,11 @@
        - vim 
        - ufw  
        - screen
-       - openjdk-17-jdk-headless
+       - openjdk-25-jdk-headless
        - python3-bs4
        - python3-requests
+       - cron
        state: present
-       state: latest
        update_cache: yes
 
    - name: get download url

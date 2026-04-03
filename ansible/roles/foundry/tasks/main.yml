@@ -8,26 +8,26 @@
        - haproxy
        - certbot
 
-   - name: create keyring dir
-     file:
-       path: /etc/apt/keyrings
-       state: directory
-       mode: '0755'
+#   - name: create keyring dir
+#     file:
+#       path: /etc/apt/keyrings
+#       state: directory
+#       mode: '0755'
 
    - name: add key
      get_url:
        url: https://deb.nodesource.com/gpgkey/nodesource.gpg.key
-       dest: /etc/apt/keyrings
+       dest: /usr/share/keyrings
        mode: '0744'
      register: add_key
 
    - name: dearmor key
-     shell: gpg -o /etc/apt/keyrings/nodesource.gpg --dearmor /etc/apt/keyrings/nodesource.gpg.key
+     shell: gpg -o /usr/share/keyrings/nodesource.gpg --dearmor /usr/share/keyrings/nodesource.gpg.key
      when: add_key is changed
 
    - name: create repo file
      apt_repository:
-       repo: deb [arch=amd64 signed-by=/etc/apt/keyrings/nodesource.gpg]  https://deb.nodesource.com/{{ node_version }} {{ ansible_distribution_release }} main
+       repo: deb [arch=amd64 signed-by=/usr/share/keyrings/nodesource.gpg]  https://deb.nodesource.com/{{ node_version }} nodistro main
        state: present
        filename: nodesource
 
@@ -99,23 +99,23 @@
        enabled: true
        name: foundry
 
-   - name: haproxy config
-     template: 
-       src: templates/haproxy.cfg.j2
-       dest: /usr/local/etc/haproxy/haproxy.cnf
-
-   - name: haproxy started
-     systemd:
-       name: haproxy
-       enabled: true
-       state: started
-
-   - name: ufw allow ingress http
-     ufw: 
-       rule: allow
-       to_port: 80
-
-   - name: ufw allow ingress https
-     ufw:
-       rule: allow
-       to_port: 443
+   # - name: haproxy config
+   #   template:
+   #     src: templates/haproxy.cfg.j2
+   #     dest: /usr/local/etc/haproxy/haproxy.cnf
+   #
+   # - name: haproxy started
+   #   systemd:
+   #     name: haproxy
+   #     enabled: true
+   #     state: started
+   #
+   # - name: ufw allow ingress http
+   #   ufw:
+   #     rule: allow
+   #     to_port: 80
+   #
+   # - name: ufw allow ingress https
+   #   ufw:
+   #     rule: allow
+   #     to_port: 443
