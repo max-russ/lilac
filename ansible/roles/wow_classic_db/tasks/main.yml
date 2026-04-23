@@ -1,0 +1,7 @@
+---
+    - name: package prerequsites
+      apt:
+        pkg:
+          - libmariadb-dev
+          - libmariadb-dev-compat
+          - mariadb-server

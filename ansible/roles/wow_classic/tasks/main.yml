@@ -1,0 +1,42 @@
+---
+    - name: package prerequsites
+      apt:
+        pkg:
+          - grep
+          - build-essential
+          - gcc
+          - g++
+          - automake
+          - git-core
+          - autoconf
+          - make
+          - patch
+          - cmake
+          - libmariadb-dev
+          - libmariadb-dev-compat
+          - libtool
+          - libssl-dev
+          - binutils
+          - zlibc
+          - libc6
+          - libbz2-dev
+          - subversion
+          - libboost-all-dev
+
+   - name: cmangos group
+     group:
+       name: cmangos
+       state: present
+
+   - name: cmangos user
+     user:
+       name: cmangos
+       group: cmangos
+       state: present
+       create_home: true
+       shell: /bin/bash
+
+    - name: git checkout
+      git:
+        repo: "https://github.com/cmangos/mangos-classic.git"
+        dest: /home/cmangos/cmangos
